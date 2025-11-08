@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Boot 代码生成器_V1.0</title>
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e9f0ff 0%, #fefefe 100%);
+            min-height: 100vh;
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+        }
+        .btn-gradient {
+            background: linear-gradient(90deg, #007bff, #00b4d8);
+            border: none;
+            color: #fff;
+            transition: all .3s ease;
+        }
+        .btn-gradient:hover {
+            opacity: .9;
+            transform: translateY(-2px);
+        }
+        .title-shadow {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h2 class="mb-4 text-center fw-bold title-shadow">🚀 Spring Boot 代码生成器_V1.0</h2>
+    <p class="text-center text-muted mb-4">输入建表 SQL、包名、作者信息，一键生成 Controller / Service / Mapper / Entity 代码。</p>
+
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-body p-4">
+            <form id="genForm">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">包名</label>
+                        <input type="text" class="form-control" name="packageName" placeholder="例如 com.example.demo" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">模块名</label>
+                        <input type="text" class="form-control" name="moduleName" placeholder="例如 tank-point" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">作者</label>
+                    <input type="text" class="form-control" name="author" placeholder="你的名字" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">建表 SQL 语句（请保留注释）</label>
+                    <textarea class="form-control" rows="10" name="sql"
+                              placeholder="CREATE TABLE `t_xxx`(\n `id` bigint COMMENT '主键',\n `name` varchar(64) COMMENT '名称'\n) COMMENT='表说明';"
+                              required></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-gradient px-5 py-2 fw-semibold">⚡ 生成代码</button>
+                </div>
+                <div id="alertBox" class="alert alert-success mt-3 d-none" role="alert">
+                    代码生成成功，正在准备下载文件...
+                </div>
+                <div id="errorBox" class="alert alert-danger mt-3 d-none" role="alert">
+                    生成失败，请检查 SQL 格式是否正确。
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 代码生成器 | Yxx | Spring Boot 3 + Bootstrap 5</p>
+    </div>
+</div>
+
+<script src="./jquery.min.js"></script>
+<script>
+    $('#genForm').on('submit', function (e) {
+        e.preventDefault();
+        $('#alertBox').addClass('d-none');
+        $('#errorBox').addClass('d-none');
+        const formData = {
+            packageName: $('input[name=packageName]').val(),
+            moduleName: $('input[name=moduleName]').val(),
+            author: $('input[name=author]').val(),
+            sql: $('textarea[name=sql]').val()
+        };
+        fetch('/generator/create', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData)
+        }).then(res => {
+            if (!res.ok) throw new Error('Network error');
+            $('#alertBox').removeClass('d-none');
+            return res.blob();
+        })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'generated-code.zip';
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+            })
+            .catch(err => {
+                $('#errorBox').text('生成失败：' + err.message).removeClass('d-none');
+            });
+    });
+</script>
+</body>
+</html>

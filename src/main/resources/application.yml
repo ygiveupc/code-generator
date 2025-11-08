@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: code-generator
+  freemarker:
+    charset: UTF-8
+    check-template-location: true
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+
+# Swagger UI 在 /swagger-ui/index.html
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+logging:
+  level:
+    root: info
