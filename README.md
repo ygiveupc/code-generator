@@ -181,8 +181,8 @@ Swagger 文档访问地址:
 
 ## 👨‍💻 作者
 
-**${author}**  
-📅 项目创建日期：${date}  
+**Yxx**  
+📅 项目创建日期：2025-11-08  
 📫 如果对本项目有任何建议或改进想法，欢迎提交 Issues 或 PR！
 
 ---
@@ -191,8 +191,3 @@ Swagger 文档访问地址:
 ```
 
 ---
-
-这份 README.md 放在你项目根目录即可 (`code-generator/README.md`)，  
-在 GitHub 或 Gitee 中都能很好地展示（标题、表格、代码块、截图等都有格式）。  
-
-是否希望我帮你把开头 logo/banner 或者中英双语版 README 也一并准备好？
