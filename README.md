@@ -1,7 +1,4 @@
-当然可以 😊  
-下面是一份为你这个 “Spring Boot 代码生成器项目” 精心编写的 **README.md**，内容包括项目简介、技术栈、功能说明、使用指南、截图占位、目录结构等，风格专业、美观（支持在 GitHub / Gitee 直接展示）。
 
----
 
 ```markdown
 # 🚀 SpringBoot Code Generator
